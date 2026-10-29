@@ -1,0 +1,6 @@
+# Stage C detection dependencies (installed separately: torch is a large download).
+# Note: Ultralytics is licensed AGPL-3.0; check this is acceptable before any wider distribution.
+# lap is needed by the ByteTrack tracker (Ultralytics otherwise auto-installs it at run time).
+-r requirements.txt
+ultralytics
+lap

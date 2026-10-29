@@ -1,0 +1,6 @@
+# Stage A + B dependencies. Versions unpinned until verified on your PC.
+# After a successful run: pip freeze > requirements.lock.txt
+opencv-python
+numpy
+streamlit
+pandas

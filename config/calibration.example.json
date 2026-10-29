@@ -1,0 +1,15 @@
+{
+  "example_only": true,
+  "_help": "TEMPLATE. Replace every value with REAL measurements, set example_only to false, save as calibration.json.",
+  "source": "REPLACE: how you measured the world coordinates (e.g. 'distances measured on Google Maps satellite view of the crosswalk stripes')",
+  "units": "metres",
+  "measurement_error_m": 0.3,
+  "image_size": [1200, 1100],
+  "ground_points": [
+    {"label": "REPLACE: e.g. crosswalk stripe corner A", "image": [0, 0], "world": [0.0, 0.0]},
+    {"label": "REPLACE", "image": [0, 0], "world": [0.0, 0.0]},
+    {"label": "REPLACE", "image": [0, 0], "world": [0.0, 0.0]},
+    {"label": "REPLACE", "image": [0, 0], "world": [0.0, 0.0]},
+    {"label": "REPLACE", "image": [0, 0], "world": [0.0, 0.0]}
+  ]
+}

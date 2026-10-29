@@ -1,0 +1,15 @@
+{
+  "_help": "TEMPLATE for ONE moment. Every value is YOUR assumption, not a measurement. Pixel coordinates come from the same frame/camera as the calibration.",
+  "eye_ground_px": [600, 700],
+  "eye_height_m": [1.1, 1.5],
+  "eye_jitter_m": 0.25,
+  "pedestrian_foot_px": [650, 500],
+  "pedestrian_height_m": [1.4, 1.9],
+  "pixel_pick_sigma_px": 3,
+  "samples": 300,
+  "seed": 1,
+  "obstacles": [
+    {"name": "parked van", "footprint_px": [[400, 450], [520, 450], [520, 560], [400, 560]], "height_m": [1.7, 2.3]}
+  ],
+  "setback": {"obstacle": "parked van", "direction_px": [[460, 500], [400, 500]], "distances_m": [0, 1, 2, 3]}
+}

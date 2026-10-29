@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+# Source video is large and may have licence restrictions: do not commit it.
+data/*
+!data/README.md
+# Generated outputs (keep the folder itself)
+outputs/*
+!outputs/.gitkeep
