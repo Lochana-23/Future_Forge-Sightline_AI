@@ -12,6 +12,7 @@ changes them together via sync_widgets(), which may only be called from a callba
 """
 import json
 import time
+import tempfile
 from pathlib import Path
 
 import pandas as pd
@@ -173,27 +174,57 @@ def quarantine_cb():
 
 
 # ---- sidebar: load video ---------------------------------------------------
-st.sidebar.text_input("Video path (relative to the project folder)", "data/video_006.avi", key="video_path")
+st.sidebar.header("Video input")
+
+uploaded_video = st.sidebar.file_uploader(
+    "Upload a traffic video",
+    type=["avi", "mp4", "mov", "mkv"]
+)
+
+if uploaded_video is not None:
+    video_bytes = uploaded_video.getvalue()
+    suffix = Path(uploaded_video.name).suffix or ".mp4"
+
+    if (
+        "uploaded_video_bytes" not in ss
+        or ss.uploaded_video_bytes != video_bytes
+    ):
+        with tempfile.NamedTemporaryFile(
+            delete=False, suffix=suffix
+        ) as tmp:
+            tmp.write(video_bytes)
+            ss.uploaded_video_path = tmp.name
+            ss.uploaded_video_bytes = video_bytes
+
+    ss.video_path = ss.uploaded_video_path
+
+else:
+    default_video = resolve("data/video_006.avi")
+
+    if default_video.is_file():
+        ss.video_path = str(default_video)
+        st.sidebar.caption("Using the local sample video.")
+    else:
+        st.info(
+            "Upload a traffic video using the sidebar to start "
+            "the SightLine AI workbench."
+        )
+        st.stop()
+
 try:
     vid = V()
 except VideoError as e:
     st.error(str(e))
     st.stop()
 
-st.sidebar.write(f"{vid.width}x{vid.height} | {vid.fps:.2f} FPS | {vid.frame_count} frames | "
-                 f"{vid.duration_s:.1f} s")
-st.sidebar.caption("Dataset licence: educational, non-commercial, no redistribution. Do not share frames publicly.")
-
-if "frame" not in ss or ss.get("loaded_video") != ss.video_path:   # first run, or the video was changed
-    ss.loaded_video = ss.video_path
-    sync_widgets(0)
-if ss.get("pending") is not None:          # set by Play; applied before widgets are created
-    sync_widgets(ss.pending)
-    ss.pending = None
-
-tab_video, tab_review, tab_geo = st.tabs(["Video and manual log", "Review candidates", "Experimental: line of sight"])
-
-
+st.sidebar.write(
+    f"{vid.width}x{vid.height} | {vid.fps:.2f} FPS | "
+    f"{vid.frame_count} frames | {vid.duration_s:.1f} s"
+)
+st.sidebar.caption(
+    "Dataset licence: educational, non-commercial, no redistribution. "
+    "Do not share frames publicly."
+)
 # =============================== TAB 1: video + manual log ===================================
 def video_tab():
     c = st.columns(7)
